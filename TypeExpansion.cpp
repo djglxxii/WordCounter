@@ -1,5 +1,5 @@
 #include <string>
 
-#include "CountingBinaryTree.cpp"
+#include "CountingRedBlackTree.cpp"
 
-template class CountingBinaryTree<std::string>;
+template class CountingRedBlackTree<std::string>;

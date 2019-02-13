@@ -2,10 +2,10 @@
 #include <iostream>
 
 #include "WordCounter.h"
-#include "CountingBinaryTree.h"
+#include "CountingRedBlackTree.h"
 
 WordCounter::WordCounter() {
-    cbt = CountingBinaryTree<std::string>();
+    cbt = CountingRedBlackTree<std::string>();
 }
 
 WordCounter::~WordCounter() = default;
@@ -15,29 +15,35 @@ void WordCounter::addWord(std::string const &word) {
 }
 
 std::string WordCounter::getReport() const {
-    const std::string TAB = "\t";
-    const std::string LF = "\n";
-
     auto pl = cbt.getPositions();
 
     std::string rpt;
+    int wordCount;
 
-    for (CountingBinaryTree<std::string>::Position &p :pl) {
+    for (CountingRedBlackTree<std::string>::Position &p :pl) {
         auto node = *p;
+        wordCount = node->count;
 
-        rpt.append(TAB);
-        rpt.append(std::to_string(node->count));
-        rpt.append(TAB).append(TAB).append(TAB).append(TAB);
+        rpt.append("\t");
+        rpt.append(std::to_string(wordCount));
+
+        // adjust tabbing for count column.
+        if (wordCount < 1000) {
+            rpt.append("\t\t");
+        } else {
+            rpt.append("\t");
+        }
+
         rpt.append(node->element);
-        rpt.append(LF);
+        rpt.append("\n");
     }
 
-    rpt.append(TAB);
+    rpt.append("\t");
     rpt.append("--------------------------");
-    rpt.append(LF);
-    rpt.append(TAB);
+    rpt.append("\n");
+    rpt.append("\t");
     rpt.append(std::to_string(cbt.size()));
-    rpt.append(TAB).append(TAB).append(TAB);
+    rpt.append("\t");
     rpt.append("Total number of different words");
 
     return rpt;
